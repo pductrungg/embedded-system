@@ -1,0 +1,7 @@
+main.c:65:6:traffic_light_control	24	static
+main.c:118:6:toggle_gpio	24	static
+main.c:148:6:toogle_gpio_bai1	8	static
+main.c:157:5:main	8	static
+main.c:204:6:SystemClock_Config	88	static
+main.c:249:13:MX_GPIO_Init	48	static
+main.c:291:6:Error_Handler	4	static,ignoring_inline_asm
