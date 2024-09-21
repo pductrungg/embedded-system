@@ -71,15 +71,16 @@ uint8_t count_traffic = 0;
 uint8_t interval = 0;
 uint8_t state = 0;
 
-//uint8_t hz = 20;
-///1000, 50, 40, 10
+//1000, 40, 10;
 
-uint8_t ms = 50;
+///HZ///
+uint8_t ms = 5;
+
+
 void bai2();
-
 void bai3();
-
 void bai4();
+void bai5();
 
 /* USER CODE END 0 */
 
@@ -124,11 +125,11 @@ int main(void)
   {
 	  while(!flag_timer2);
 	  flag_timer2 = 0;
-	  // main task, every 50ms
-	  bai1();
+//	  bai1();
 //	  bai2();
 //	  bai3();
 //	  bai4();
+	  bai5();
 //	  test_7seg();
     /* USER CODE END WHILE */
 
@@ -263,6 +264,9 @@ void system_init(){
 uint8_t count_led_debug = 0;
 uint8_t count_led_Y0 = 0;
 uint8_t count_led_Y1 = 0;
+int ledInterval = 2000;
+int Y0Interval = 6000;
+int Y1Interval = 6000;
 
 void test_LedDebug(){
 	count_led_debug = (count_led_debug + 1)%(2000/ms);
@@ -290,7 +294,6 @@ void test_LedY1(){
 }
 
 void test_7seg(){
-	//write number1 at led index 0 (not show dot)
 	led7_SetDigit(1, 0, 0);
 	led7_SetDigit(5, 1, 0);
 	led7_SetDigit(4, 2, 0);
@@ -300,31 +303,28 @@ void test_7seg(){
 void bai2(){
 	count_traffic = (count_traffic+ 1)%interval;
 	if(count_traffic == 0){
-
-		// Transition the traffic lights between Red, Green, and Yellow
-		switch (state)
-		{
-			case 0:  // Red to Green
-				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);    // Red OFF
-				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);  // yellow off
-				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);  // Green ON
-				interval = (3000/ms);  // Green for 3 seconds
+		switch (state){
+			case 0:
+				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
+				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
+				interval = (3000/ms);
 				state = 1;
 				break;
 
-			case 1:  // Green to Yellow
-				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);    // Red OFF
-				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1); // Yellow ON
-				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);   // Green OFF
-				interval = (2000/ms);  // Yellow for 2 second
+			case 1:
+				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
+				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
+				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
+				interval = (2000/ms);
 				state = 2;
 				break;
 
-			case 2:  // Yellow to Red
-				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);   // Green OFF
-				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);  // Yellow OFF
-				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);   // Red ON
-				interval = (5000/ms);  // Red for 5 seconds
+			case 2:
+				HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
+				HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
+				HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
+				interval = (5000/ms);
 				state = 0;
 				break;
 		}
@@ -333,9 +333,10 @@ void bai2(){
 
 void bai3(){
 	led7_Scan();
+	test_7seg();
 }
 
-int time_counter = 300;
+int time_counter = 1430;
 uint8_t count_clock = 0;
 uint8_t blink_counter = 0;
 int colon = 0;
@@ -347,6 +348,7 @@ void bai4(){
 	count_clock = (count_clock+ 1)%(1000/ms);
 	if(count_clock == 0){
 		time_counter++;
+		time_counter %= 1440;
 		minute = time_counter%60;
 		hour = time_counter/60;
 		led7_SetDigit(minute%10, 3, 0);
@@ -360,6 +362,27 @@ void bai4(){
 		led7_SetColon(colon);
 	}
 }
+int a = 1, b = 3, c = 5, d = 2;
+uint8_t shift_clock = 0;
+
+void bai5(){
+	led7_Scan();
+    shift_clock = (shift_clock + 1) % (1000 / ms);
+
+    if (shift_clock == 0){
+    	int temp = d;
+        d = c;
+        c = b;
+        b = a;
+        a = temp;
+        led7_SetDigit(d, 3, 0);
+        led7_SetDigit(c, 2, 0);
+        led7_SetDigit(b, 1, 0);
+        led7_SetDigit(a, 0, 0);
+    }
+}
+
+
 /* USER CODE END 4 */
 
 /**
