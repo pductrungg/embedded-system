@@ -1,0 +1,5 @@
+traffic_light.c:22:6:Blink	24	static
+traffic_light.c:59:6:TrafficLight_Update	24	static
+traffic_light.c:160:6:handleSwitchState	24	static
+traffic_light.c:188:6:handleIncreaseCounter	4	static
+traffic_light.c:207:6:handleConfirmValue	24	static
