@@ -1,0 +1,6 @@
+system.c:37:6:sensor_diplay	24	static
+system.c:96:6:LCD_show_sensor	32	static
+system.c:125:6:uart_test	24	static
+system.c:161:6:drawGraph	56	static
+system.c:187:6:updateGraph	24	static
+system.c:207:6:system_loop	8	static
