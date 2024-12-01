@@ -1,0 +1,14 @@
+main.c:118:5:main	8	static
+main.c:186:6:SystemClock_Config	88	static
+main.c:227:6:system_init	8	static
+main.c:237:6:test_LedDebug	8	static
+main.c:244:9:isButtonClear	8	static
+main.c:275:6:handleInitState	48	static
+main.c:297:6:handleGameState	8	static
+main.c:321:6:handleEndState	24	static
+main.c:335:6:updateSnake	16	static
+main.c:350:6:checkCollision	16	static
+main.c:374:6:drawGame	56	static
+main.c:414:6:generateFood	8	static
+main.c:422:9:isButtonTouched	24	static
+main.c:433:6:Error_Handler	4	static,ignoring_inline_asm
